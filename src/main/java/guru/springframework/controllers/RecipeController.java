@@ -29,9 +29,8 @@ public class RecipeController {
 
     @GetMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model){
-
         //todo: throw new NotFoundException("Recipe Not Found. For ID value: " + id );
-        model.addAttribute("recipe", recipeService.findById(id).block());
+        model.addAttribute("recipe", recipeService.findById(id));
 
         return "recipe/show";
     }
@@ -51,7 +50,6 @@ public class RecipeController {
 
     @PostMapping("recipe")
     public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult){
-
         if(bindingResult.hasErrors()){
 
             bindingResult.getAllErrors().forEach(objectError -> {
@@ -68,7 +66,6 @@ public class RecipeController {
 
     @GetMapping("recipe/{id}/delete")
     public String deleteById(@PathVariable String id){
-
         log.debug("Deleting id: " + id);
 
         recipeService.deleteById(id).block();
