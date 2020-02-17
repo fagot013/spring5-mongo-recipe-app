@@ -15,8 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.HashSet;
-
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -42,7 +40,7 @@ public class IngredientControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        controller = new IngredientController(ingredientService, recipeService, unitOfMeasureService);
+        controller = new IngredientController(ingredientService, recipeService, unitOfMeasureService, ingredientCommandToIngredient);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
