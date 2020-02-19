@@ -7,10 +7,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.exceptions.TemplateInputException;
+
+import java.util.UUID;
 
 /**
  * Created by jt on 6/19/17.
@@ -63,8 +66,11 @@ public class RecipeController {
             });
             return RECIPE_RECIPEFORM_URL;
         }
-        RecipeCommand savedCommand = recipeService.saveRecipeCommand(command).block();
-        return "redirect:/recipe/" + savedCommand.getId() + "/show";
+        if (StringUtils.isEmpty(command.getId())) {
+            command.setId(UUID.randomUUID().toString());
+        }
+        recipeService.saveRecipeCommand(command).subscribe();
+        return "redirect:/recipe/" + command.getId() + "/show";
     }
 
     @GetMapping("recipe/{id}/delete")
